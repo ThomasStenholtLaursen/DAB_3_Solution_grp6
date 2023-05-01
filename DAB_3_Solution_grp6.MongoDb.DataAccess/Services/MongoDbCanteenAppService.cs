@@ -1,11 +1,11 @@
 ﻿using DAB_3_Solution_grp6.MongoDb.DataAccess.Models;
-using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettings;
+using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettingsAccess;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 
-public class CanteenService
+public class MongoDbCanteenAppService
 {
     private readonly IMongoCollection<Canteen> _canteenCollection;
     private readonly IMongoCollection<Customer> _customerCollection;
@@ -14,8 +14,8 @@ public class CanteenService
     private readonly IMongoCollection<Meal> _mealCollection;
     private readonly IMongoCollection<Reservation> _reservationCollection;
 
-    public CanteenService(
-        IOptions<Settings> databaseSettings)
+    public MongoDbCanteenAppService(
+        IOptions<MongoDbSettings> databaseSettings)
     {
         var mongoClient = new MongoClient(
             databaseSettings.Value.ConnectionString);
@@ -56,13 +56,6 @@ public class CanteenService
 
     public async Task InsertManyRatingsAsync(IEnumerable<Rating> ratings) =>
         await _ratingCollection.InsertManyAsync(ratings);
-
-    //public async Task<Canteen> GetCanteenStaff(string canteenName)
-    //{
-    //    var canteens = await _canteenCollection.FindAsync(x => x.Name == canteenName);
-
-    //    return canteens;
-    //}
 
     public async Task<Canteen> GetCanteenStaff(string canteenName) => await _canteenCollection.Find(x => x.Name == canteenName).FirstOrDefaultAsync();
 }

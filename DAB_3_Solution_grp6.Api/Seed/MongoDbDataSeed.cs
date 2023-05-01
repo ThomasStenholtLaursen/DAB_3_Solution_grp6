@@ -5,17 +5,17 @@ namespace DAB_3_Solution_grp6.Api.Seed
 {
     public class MongoDbDataSeed
     {
-        private readonly CanteenService _canteenService;
+        private readonly MongoDbCanteenAppService _mongoDbCanteenAppService;
 
-        public MongoDbDataSeed(CanteenService canteenService)
+        public MongoDbDataSeed(MongoDbCanteenAppService mongoDbCanteenAppService)
         {
-            _canteenService = canteenService;
+            _mongoDbCanteenAppService = mongoDbCanteenAppService;
         }
 
         public async void SeedData()
         {
-            var ratingCount = await _canteenService.GetRatingCountAsync();
-            var canteenCount = await _canteenService.GetCanteenCountAsync();
+            var ratingCount = await _mongoDbCanteenAppService.GetRatingCountAsync();
+            var canteenCount = await _mongoDbCanteenAppService.GetCanteenCountAsync();
 
             if (ratingCount != 0 || canteenCount != 0) return;
 
@@ -38,9 +38,9 @@ namespace DAB_3_Solution_grp6.Api.Seed
 
             canteens!.Add(c1);
 
-            await _canteenService.InsertManyCanteensAsync(canteens);
+            await _mongoDbCanteenAppService.InsertManyCanteensAsync(canteens);
 
-            await _canteenService.InsertManyRatingsAsync(ratings);
+            await _mongoDbCanteenAppService.InsertManyRatingsAsync(ratings);
         }
     }
 }

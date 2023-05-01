@@ -8,15 +8,15 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp
     [Route("api/[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly CanteenService _canteenService;
+        private readonly MongoDbCanteenAppService _mongoDbCanteenAppService;
 
-        public BooksController(CanteenService canteenService) =>
-            _canteenService = canteenService;
+        public BooksController(MongoDbCanteenAppService mongoDbCanteenAppService) =>
+            _mongoDbCanteenAppService = mongoDbCanteenAppService;
 
         [HttpPost]
         public async Task<IActionResult> Post(Canteen newBook)
         {
-            await _canteenService.CreateAsync(newBook);
+            await _mongoDbCanteenAppService.CreateAsync(newBook);
 
             return Ok();
         }
@@ -24,7 +24,7 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp
         [HttpGet]
         public async Task<ActionResult<Canteen>> Post(string canteenName)
         {
-            var result = await _canteenService.GetCanteenStaff(canteenName);
+            var result = await _mongoDbCanteenAppService.GetCanteenStaff(canteenName);
 
             return Ok(result);
         }

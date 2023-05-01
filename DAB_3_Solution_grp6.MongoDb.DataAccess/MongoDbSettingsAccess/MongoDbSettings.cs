@@ -1,6 +1,6 @@
-﻿namespace DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettings
+﻿namespace DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettingsAccess
 {
-    public class Settings
+    public class MongoDbSettings
     {
         public string ConnectionString { get; set; } = null!;
 
