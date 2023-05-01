@@ -1,4 +1,4 @@
-﻿namespace DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query5
+﻿namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query5
 {
     public class AvailableNearbyMealsResponse
     {

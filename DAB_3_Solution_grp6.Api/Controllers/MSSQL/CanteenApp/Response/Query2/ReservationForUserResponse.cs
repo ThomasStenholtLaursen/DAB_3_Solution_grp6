@@ -1,4 +1,4 @@
-﻿namespace DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query2
+﻿namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query2
 {
     public class ReservationForUserResponse
     {

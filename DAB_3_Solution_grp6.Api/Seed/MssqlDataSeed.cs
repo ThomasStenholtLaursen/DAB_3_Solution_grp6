@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAB_3_Solution_grp6.Api.Seed
 {
-    public static class DataSeed
+    public static class MssqlDataSeed
     {
         public static async Task Seed(CanteenAppDbContext context)
         {

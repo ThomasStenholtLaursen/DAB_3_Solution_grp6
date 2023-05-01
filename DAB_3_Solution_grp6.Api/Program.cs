@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using DAB_3_Solution_grp6.Api.Seed;
+using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettings;
+using DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 using DAB_3_Solution_grp6.MSSQL.DataAccess;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Repositories.Canteen;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Repositories.Global;
@@ -19,6 +21,11 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.Configure<Settings>(
+    builder.Configuration.GetSection("DAB3Database"));
+
+builder.Services.AddSingleton<CanteenService>();
 
 builder.Services.AddDbContext<CanteenAppDbContext>(
     options =>
@@ -41,12 +48,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    using var scope = app.Services.CreateScope();
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<CanteenAppDbContext>();
+    // Seeding for MSSQL
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<CanteenAppDbContext>();
 
-    await DataSeed.Seed(context);
+        await MssqlDataSeed.Seed(context);
+    }
+
+    // Seeding for MongoDB
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var canteenService = services.GetRequiredService<CanteenService>();
+
+        var mongoDbDataSeed = new MongoDbDataSeed(canteenService);
+        mongoDbDataSeed.SeedData();
+    }
 }
+
 
 app.UseHttpsRedirection();
 

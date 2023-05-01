@@ -26,16 +26,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DAB_3_Solution_grp6.MongoDb.DataAccess\DAB_3_Solution_grp6.MongoDb.DataAccess.csproj" />
     <ProjectReference Include="..\DAB_3_Solution_grp6.MSSQL.DataAccess\DAB_3_Solution_grp6.MSSQL.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\MongoDb\CanteenApp\Response\" />
   </ItemGroup>
 
 </Project>

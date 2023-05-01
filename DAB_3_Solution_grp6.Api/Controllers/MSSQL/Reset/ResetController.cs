@@ -3,7 +3,7 @@ using DAB_3_Solution_grp6.MSSQL.DataAccess;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Repositories.Global;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAB_3_Solution_grp6.Api.Controllers.Reset
+namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.Reset
 {
     [ApiController]
     [Route("api")]
@@ -24,7 +24,7 @@ namespace DAB_3_Solution_grp6.Api.Controllers.Reset
         [HttpPost("Seed")]
         public async Task<ActionResult> SeedDatabase()
         {
-            await DataSeed.Seed(_dbContext);
+            await MssqlDataSeed.Seed(_dbContext);
 
             return Ok();
         }

@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
-using DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query1;
-using DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query2;
-using DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query3;
-using DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query4;
-using DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query5;
-using DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query6;
-using DAB_3_Solution_grp6.Api.Controllers.CanteenApp.Response.Query7;
+using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query1;
+using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query2;
+using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query3;
+using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query4;
+using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query5;
+using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query6;
+using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query7;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Entities;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Exceptions;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Repositories.Canteen;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Repositories.Reservation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DAB_3_Solution_grp6.Api.Controllers.CanteenApp
+namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp
 {
     [ApiController]
     [Route("api")]
@@ -79,7 +79,7 @@ namespace DAB_3_Solution_grp6.Api.Controllers.CanteenApp
                         MealId = x.MealId,
                         MealName = x.MealName,
                     }).ToList();
-                    
+
                     var canteen = canteens.FirstOrDefault(x => x.CanteenId == reservation.Meals![0].CanteenId);
 
                     response.Add(new ReservationForUserResponse
@@ -179,10 +179,10 @@ namespace DAB_3_Solution_grp6.Api.Controllers.CanteenApp
 
                 var response = new AvailableNearbyMealsResponse
                 {
-                    NearbyMeals = nearbyCanceledMeals.Select(meal => 
+                    NearbyMeals = nearbyCanceledMeals.Select(meal =>
                         new NearbyMeal
                         {
-                            CanteenName = nearbyCanteens.FirstOrDefault(canteen => canteen.CanteenId == meal.CanteenId)?.Name!, 
+                            CanteenName = nearbyCanteens.FirstOrDefault(canteen => canteen.CanteenId == meal.CanteenId)?.Name!,
                             MealName = meal.MealName
                         }).ToList()
                 };
@@ -239,7 +239,7 @@ namespace DAB_3_Solution_grp6.Api.Controllers.CanteenApp
                 var canteens = await _canteenRepository.GetAllCanteenWithStaffByNameAsync(canteenName);
 
                 var response = _mapper.Map<List<Staff>, List<StaffResponse>>(canteens.Staff);
-                
+
                 return Ok(response);
             }
             catch (CanteenNotFoundException)
