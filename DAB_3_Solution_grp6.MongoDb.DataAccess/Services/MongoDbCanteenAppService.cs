@@ -51,11 +51,54 @@ public class MongoDbCanteenAppService
     public async Task<long> GetRatingCountAsync() =>
         await _ratingCollection.CountDocumentsAsync(FilterDefinition<Rating>.Empty);
 
+    public async Task<long> GetMenuCountAsync() =>
+      await _menuCollection.CountDocumentsAsync(FilterDefinition<Menu>.Empty);
+
+    public async Task<long> GetCustomerCountAsync() =>
+     await _customerCollection.CountDocumentsAsync(FilterDefinition<Customer>.Empty);
+
+    public async Task<long> GetMealCountAsync() =>
+    await _mealCollection.CountDocumentsAsync(FilterDefinition<Meal>.Empty);
+
+    public async Task<long> GetReservationCountAsync() =>
+    await _reservationCollection.CountDocumentsAsync(FilterDefinition<Reservation>.Empty);
+
+
     public async Task InsertManyCanteensAsync(IEnumerable<Canteen> canteens) =>
         await _canteenCollection.InsertManyAsync(canteens);
 
     public async Task InsertManyRatingsAsync(IEnumerable<Rating> ratings) =>
         await _ratingCollection.InsertManyAsync(ratings);
 
-    public async Task<Canteen> GetCanteenStaff(string canteenName) => await _canteenCollection.Find(x => x.Name == canteenName).FirstOrDefaultAsync();
+    public async Task InsertManyMenusAsync(IEnumerable<Menu> menus) =>
+       await _menuCollection.InsertManyAsync(menus);
+
+    public async Task InsertManyCustomerAsync(IEnumerable<Customer> customers) =>
+   await _customerCollection.InsertManyAsync(customers);
+
+    public async Task InsertManyReservationAsync(IEnumerable<Reservation> reservations) =>
+    await _reservationCollection.InsertManyAsync(reservations);
+
+    public async Task InsertManyMealAsync(IEnumerable<Meal> meals) =>
+   await _mealCollection.InsertManyAsync(meals);
+
+
+    public async Task<List<Staff>> GetCanteenStaff(string canteenName) => (await _canteenCollection.Find(x => x.Name == canteenName).FirstOrDefaultAsync()).Staff;
+
+    public async Task<Menu> GetCanteenMenu(string canteenName) => await _menuCollection.Find(x => x.CanteenName == canteenName).FirstOrDefaultAsync();
+
+    public async Task<Reservation> GetReservation(string auID) => await _reservationCollection.Find(x => x.AuId == auID ).FirstOrDefaultAsync();
+
+    public async Task<List<Meal>> GetMeals(string auID)
+    {
+        var reservationIDs = await _reservationCollection.Find(x => x.AuId == auID)
+            .Project(x => x.Id).ToListAsync();
+
+        var meals = await _mealCollection.Find(x => reservationIDs.Contains(x.Id))
+            .ToListAsync();
+
+        return meals;
+    }
+
+
 }

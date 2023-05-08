@@ -6,11 +6,11 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BooksController : ControllerBase
+    public class MongoCanteensController : ControllerBase
     {
         private readonly MongoDbCanteenAppService _mongoDbCanteenAppService;
 
-        public BooksController(MongoDbCanteenAppService mongoDbCanteenAppService) =>
+        public MongoCanteensController(MongoDbCanteenAppService mongoDbCanteenAppService) =>
             _mongoDbCanteenAppService = mongoDbCanteenAppService;
 
         [HttpPost]
@@ -21,12 +21,35 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<Canteen>> Post(string canteenName)
+        [HttpGet("GetStaff")]
+        public async Task<ActionResult<List<Staff>>> GetStaff(string canteenName)
         {
             var result = await _mongoDbCanteenAppService.GetCanteenStaff(canteenName);
 
             return Ok(result);
         }
+
+
+        [HttpGet("GetMenu")]
+        public async Task<ActionResult<Menu>> GetMenu(string canteenName)
+        {
+            var result = await _mongoDbCanteenAppService.GetCanteenMenu(canteenName);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("GetReservation")]
+        public async Task<ActionResult<Menu>> GetReservation(string AuID)
+        {
+            var result = await _mongoDbCanteenAppService.GetMeals(AuID);
+
+            return Ok(result);
+        }
+
+
+
+
+
     }
 }

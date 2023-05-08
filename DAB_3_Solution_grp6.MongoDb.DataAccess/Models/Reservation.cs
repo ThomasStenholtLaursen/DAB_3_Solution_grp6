@@ -22,9 +22,9 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
         public string AuId { get; }
 
         [BsonElement("menuId")]
-        public ObjectId MenuId { get; }
+        public ObjectId? MenuId { get; }
 
-        public Reservation(int? warmQuantity, int? streetQuantity, DateTime created, string auId, ObjectId menuId)
+        public Reservation(int? warmQuantity, int? streetQuantity, DateTime created, string auId, ObjectId? menuId)
         {
             Id = ObjectId.GenerateNewId();
             WarmQuantity = warmQuantity;
