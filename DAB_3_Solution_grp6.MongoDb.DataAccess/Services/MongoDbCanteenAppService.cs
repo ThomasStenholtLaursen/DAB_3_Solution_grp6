@@ -2,7 +2,6 @@
 using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettingsAccess;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System.Linq;
 
 namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 
