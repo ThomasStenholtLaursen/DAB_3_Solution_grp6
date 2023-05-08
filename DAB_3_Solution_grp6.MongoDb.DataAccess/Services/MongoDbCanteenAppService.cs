@@ -2,6 +2,7 @@
 using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettingsAccess;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Linq;
 
 namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 
@@ -87,18 +88,21 @@ public class MongoDbCanteenAppService
 
     public async Task<Menu> GetCanteenMenu(string canteenName) => await _menuCollection.Find(x => x.CanteenName == canteenName).FirstOrDefaultAsync();
 
-    public async Task<Reservation> GetReservation(string auID) => await _reservationCollection.Find(x => x.AuId == auID ).FirstOrDefaultAsync();
-
-    public async Task<List<Meal>> GetMeals(string auID)
+    public async Task<Meal> GetReservationForAGivenCustomer(string auID)
     {
-        var reservationIDs = await _reservationCollection.Find(x => x.AuId == auID)
-            .Project(x => x.Id).ToListAsync();
-
-        var meals = await _mealCollection.Find(x => reservationIDs.Contains(x.Id))
+        var reservations = await _reservationCollection
+            .Find(x => x.AuId == auID)
+            .Project(x => x.Id)
             .ToListAsync();
 
-        return meals;
-    }
+        var meal = await _mealCollection
+            .Aggregate()
+            .Match(x => reservations.Contains(x.ReservationId))
+            .FirstOrDefaultAsync();
+
+        return meal;
+    
+}
 
 
 }
