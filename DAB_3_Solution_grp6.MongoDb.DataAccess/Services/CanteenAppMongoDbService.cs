@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 
-public class MongoDbCanteenAppService
+public class CanteenAppMongoDbService
 {
     private readonly IMongoCollection<Canteen> _canteenCollection;
     private readonly IMongoCollection<Customer> _customerCollection;
@@ -14,7 +14,7 @@ public class MongoDbCanteenAppService
     private readonly IMongoCollection<Meal> _mealCollection;
     private readonly IMongoCollection<Reservation> _reservationCollection;
 
-    public MongoDbCanteenAppService(
+    public CanteenAppMongoDbService(
         IOptions<MongoDbSettings> databaseSettings)
     {
         var mongoClient = new MongoClient(
@@ -40,11 +40,9 @@ public class MongoDbCanteenAppService
 
         _reservationCollection = mongoDatabase.GetCollection<Reservation>(
             databaseSettings.Value.ReservationCollectionName);
-
     }
-    public async Task CreateAsync(Canteen newBook) =>
-        await _canteenCollection.InsertOneAsync(newBook);
 
+    #region SeedMethods
     public async Task<long> GetCanteenCountAsync() =>
         await _canteenCollection.CountDocumentsAsync(FilterDefinition<Canteen>.Empty);
 
@@ -81,40 +79,66 @@ public class MongoDbCanteenAppService
 
     public async Task InsertManyMealAsync(IEnumerable<Meal> meals) =>
    await _mealCollection.InsertManyAsync(meals);
-
+    #endregion
 
     public async Task<List<Staff>> GetCanteenStaff(string canteenName) => (await _canteenCollection.Find(x => x.Name == canteenName).FirstOrDefaultAsync()).Staff;
 
-    public async Task<Menu> GetCanteenMenu(string canteenName) => await _menuCollection.Find(x => x.CanteenName == canteenName).FirstOrDefaultAsync();
+    public async Task<Menu> GetMenuForCanteen(string canteenName)
+    {
+        var today = DateTime.Today;
+        var menu = await _menuCollection.Find(x => x.CanteenName == canteenName &&
+                                                   x.Created.Year == today.Year &&
+                                                   x.Created.Month == today.Month &&
+                                                   x.Created.Day == today.Day).FirstOrDefaultAsync();
 
-    public async Task<Meal> GetReservationForAGivenCustomer(string auID)
+        return menu;
+    }
+
+    public async Task<List<Meal>> GetReservationsForAGivenCustomer(string auId)
     {
         var reservations = await _reservationCollection
-            .Find(x => x.AuId == auID)
-            .Project(x => x.Id)
+            .Find(x => x.AuId == auId)
             .ToListAsync();
 
-        var meal = await _mealCollection
-            .Aggregate()
-            .Match(x => reservations.Contains(x.ReservationId))
-            .FirstOrDefaultAsync();
+        var reservationIds = reservations.Select(r => r.Id).ToList();
 
-        return meal;
-    
-}
+        var meals = await _mealCollection
+            .Find(x => reservationIds.Any(id => x.ReservationId == id))
+            .ToListAsync();
+
+        return meals;
+    }
+
+    public async Task<List<Meal>> GetCanceledMealsForCanteen(string canteenName)
+    {
+        var meals = await _mealCollection.Find(x => x.ReservationId == null && x.CanteenName == canteenName).ToListAsync();
+
+        return meals;
+    }
+
+    public async Task<List<Meal>> GetCanceledMealsInNearbyCanteenForCanteen(string canteenName)
+    {
+        var canteen = await _canteenCollection.Find(x => x.Name == canteenName).FirstOrDefaultAsync();
+
+        var nearbyCanteens = await _canteenCollection.Find(x => x.PostalCode == canteen.PostalCode && x.Name != canteen.Name).ToListAsync();
+
+        var canceledMeals = await _mealCollection
+            .Find(x => nearbyCanteens.Any(c => c.Name == x.CanteenName) && x.ReservationId == null)
+            .ToListAsync();
+
+        return canceledMeals;
+    }
+
+    public async Task<List<Rating>> GetAllRatings()
+    {
+        return await _ratingCollection.Find(x => true).ToListAsync();
+    }
 
     public async Task<List<Reservation>> GetReservationsForCanteen(string canteenName)
     {
-        var canteenMenu = await GetCanteenMenu(canteenName);
+        var canteenMenu = await GetMenuForCanteen(canteenName);
         var reservationsForCanteen = await _reservationCollection.Find(x => x.MenuId == canteenMenu.Id).ToListAsync();
 
         return reservationsForCanteen;
-    }
-
-    public async Task<Menu> GetMenuForCanteen(string canteenName)
-    {
-        var canteenMenu = await GetCanteenMenu(canteenName);
-
-        return canteenMenu;
     }
 }

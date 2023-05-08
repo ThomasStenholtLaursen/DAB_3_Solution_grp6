@@ -6,21 +6,21 @@ namespace DAB_3_Solution_grp6.Api.Seed
 {
     public class MongoDbDataSeed
     {
-        private readonly MongoDbCanteenAppService _mongoDbCanteenAppService;
+        private readonly CanteenAppMongoDbService _canteenAppMongoDbService;
 
-        public MongoDbDataSeed(MongoDbCanteenAppService mongoDbCanteenAppService)
+        public MongoDbDataSeed(CanteenAppMongoDbService canteenAppMongoDbService)
         {
-            _mongoDbCanteenAppService = mongoDbCanteenAppService;
+            _canteenAppMongoDbService = canteenAppMongoDbService;
         }
 
-        public async void SeedDataMongoDb(MongoDbCanteenAppService mongoDbService)
+        public async void SeedDataMongoDb(CanteenAppMongoDbService canteenAppMongoDbService)
         {
-            var ratingCount = await _mongoDbCanteenAppService.GetRatingCountAsync();
-            var canteenCount = await _mongoDbCanteenAppService.GetCanteenCountAsync();
-            var menuCount = await _mongoDbCanteenAppService.GetMenuCountAsync();
-            var reservationCount = await _mongoDbCanteenAppService.GetReservationCountAsync();
-            var customerCount = await _mongoDbCanteenAppService.GetCustomerCountAsync();
-            var mealCount = await _mongoDbCanteenAppService.GetMealCountAsync();
+            var ratingCount = await _canteenAppMongoDbService.GetRatingCountAsync();
+            var canteenCount = await _canteenAppMongoDbService.GetCanteenCountAsync();
+            var menuCount = await _canteenAppMongoDbService.GetMenuCountAsync();
+            var reservationCount = await _canteenAppMongoDbService.GetReservationCountAsync();
+            var customerCount = await _canteenAppMongoDbService.GetCustomerCountAsync();
+            var mealCount = await _canteenAppMongoDbService.GetMealCountAsync();
 
             if (ratingCount != 0 || canteenCount != 0 || menuCount != 0 || reservationCount != 0 || customerCount != 0 || mealCount != 0) return;
 
@@ -30,15 +30,15 @@ namespace DAB_3_Solution_grp6.Api.Seed
             var menuIds = GenerateIdentifiers(10);
             var reservationIds = GenerateIdentifiers(20);
 
-            await SeedCanteens(mongoDbService, canteenIds);
-            await SeedCustomers(mongoDbService, auIds);
-            await SeedRatings(mongoDbService, canteenIds, auIds);
-            await SeedMenus(mongoDbService, menuIds);
-            await SeedReservations(mongoDbService, menuIds, auIds, reservationIds);
-            await SeedMeals(mongoDbService, reservationIds);
+            await SeedCanteens(canteenAppMongoDbService, canteenIds);
+            await SeedCustomers(canteenAppMongoDbService, auIds);
+            await SeedRatings(canteenAppMongoDbService, canteenIds, auIds);
+            await SeedMenus(canteenAppMongoDbService, menuIds);
+            await SeedReservations(canteenAppMongoDbService, menuIds, auIds, reservationIds);
+            await SeedMeals(canteenAppMongoDbService, reservationIds);
         }
 
-        private static async Task SeedCanteens(MongoDbCanteenAppService mongodbService, IReadOnlyList<ObjectId> canteenIds)
+        private static async Task SeedCanteens(CanteenAppMongoDbService mongodbService, IReadOnlyList<ObjectId> canteenIds)
         {
             var canteens = new List<Canteen>();
 
@@ -104,7 +104,7 @@ namespace DAB_3_Solution_grp6.Api.Seed
             await mongodbService.InsertManyCanteensAsync(canteens);
         }
 
-        private static async Task SeedCustomers(MongoDbCanteenAppService mongodbService, IReadOnlyList<string> auIds)
+        private static async Task SeedCustomers(CanteenAppMongoDbService mongodbService, IReadOnlyList<string> auIds)
         {
             var customers = new List<Customer>
             {
@@ -118,7 +118,7 @@ namespace DAB_3_Solution_grp6.Api.Seed
             await mongodbService.InsertManyCustomerAsync(customers);
         }
 
-        private static async Task SeedRatings(MongoDbCanteenAppService mongodbService, IReadOnlyList<ObjectId> canteenIds, IReadOnlyList<string> auIds)
+        private static async Task SeedRatings(CanteenAppMongoDbService mongodbService, IReadOnlyList<ObjectId> canteenIds, IReadOnlyList<string> auIds)
         {
             var ratings = new List<Rating>
             {
@@ -142,7 +142,7 @@ namespace DAB_3_Solution_grp6.Api.Seed
             await mongodbService.InsertManyRatingsAsync(ratings);
         }
 
-        private static async Task SeedMenus(MongoDbCanteenAppService mongodbService, IReadOnlyList<ObjectId> menuIds)
+        private static async Task SeedMenus(CanteenAppMongoDbService mongodbService, IReadOnlyList<ObjectId> menuIds)
         {
             var menus = new List<Menu>
             {
@@ -156,7 +156,7 @@ namespace DAB_3_Solution_grp6.Api.Seed
             await mongodbService.InsertManyMenusAsync(menus);
         }
 
-        private static async Task SeedReservations(MongoDbCanteenAppService mongodbService, IReadOnlyList<ObjectId> menuIds, IReadOnlyList<string> auIds, IReadOnlyList<ObjectId> reservationIds)
+        private static async Task SeedReservations(CanteenAppMongoDbService mongodbService, IReadOnlyList<ObjectId> menuIds, IReadOnlyList<string> auIds, IReadOnlyList<ObjectId> reservationIds)
         {
             var reservations = new List<Reservation>
             {
@@ -178,11 +178,10 @@ namespace DAB_3_Solution_grp6.Api.Seed
         }
 
 
-        private static async Task SeedMeals(MongoDbCanteenAppService mongodbService, IReadOnlyList<ObjectId> reservationIds)
+        private static async Task SeedMeals(CanteenAppMongoDbService mongodbService, IReadOnlyList<ObjectId> reservationIds)
         {
             var meals = new List<Meal>
             {
-                new("Soup", "Kgl. Bibliotek", reservationIds[0]),
                 new("Soup", "Kgl. Bibliotek", reservationIds[0]),
                 new("Pizza", "Kgl. Bibliotek", reservationIds[0]),
                 new("Pizza", "Kgl. Bibliotek", reservationIds[0]),

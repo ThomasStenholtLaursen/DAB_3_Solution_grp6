@@ -25,7 +25,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbDab3"));
 
-builder.Services.AddSingleton<MongoDbCanteenAppService>();
+builder.Services.AddSingleton<CanteenAppMongoDbService>();
 
 builder.Services.AddDbContext<CanteenAppDbContext>(
     options =>
@@ -61,7 +61,7 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
-        var canteenService = services.GetRequiredService<MongoDbCanteenAppService>();
+        var canteenService = services.GetRequiredService<CanteenAppMongoDbService>();
 
         var mongoDbDataSeed = new MongoDbDataSeed(canteenService);
         mongoDbDataSeed.SeedDataMongoDb(canteenService);

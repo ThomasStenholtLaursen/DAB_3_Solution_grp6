@@ -8,7 +8,7 @@ namespace DAB_3_Solution_grp6.Api.MapperProfiles.MongoDbProfiles
     {
         public StaffProfile()
         {
-            CreateMap<Staff, StaffResponseMongoDb>()
+            CreateMap<Staff, StaffMongoDbResponse>()
                 .ForMember(x => x.StaffId, opt => opt.MapFrom(src => src.Id));
         }
     }
