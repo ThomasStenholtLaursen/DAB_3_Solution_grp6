@@ -7,7 +7,7 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; }
+        public ObjectId? Id { get; }
 
         [BsonElement("warmQuantity")]
         public int? WarmQuantity { get; }

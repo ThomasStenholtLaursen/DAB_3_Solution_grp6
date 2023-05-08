@@ -87,18 +87,21 @@ public class MongoDbCanteenAppService
 
     public async Task<Menu> GetCanteenMenu(string canteenName) => await _menuCollection.Find(x => x.CanteenName == canteenName).FirstOrDefaultAsync();
 
-    public async Task<Reservation> GetReservationsByAuId(string auId) => await _reservationCollection.Find(x => x.AuId == auId ).FirstOrDefaultAsync();
-
-    public async Task<List<Meal>> GetMealsByAuId(string auId)
+    public async Task<Meal> GetReservationForAGivenCustomer(string auID)
     {
-        var reservationIDs = await _reservationCollection.Find(x => x.AuId == auId)
-            .Project(x => x.Id).ToListAsync();
-
-        var meals = await _mealCollection.Find(x => reservationIDs.Contains(x.Id))
+        var reservations = await _reservationCollection
+            .Find(x => x.AuId == auID)
+            .Project(x => x.Id)
             .ToListAsync();
 
-        return meals;
-    }
+        var meal = await _mealCollection
+            .Aggregate()
+            .Match(x => reservations.Contains(x.ReservationId))
+            .FirstOrDefaultAsync();
+
+        return meal;
+    
+}
 
     public async Task<List<Reservation>> GetReservationsForCanteen(string canteenName)
     {
