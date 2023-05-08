@@ -7,12 +7,12 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.Reset
 {
     [ApiController]
     [Route("api")]
-    public class ResetController : ControllerBase
+    public class ResetMssqlController : ControllerBase
     {
         private readonly IGlobalRepository _globalRepository;
         private readonly CanteenAppDbContext _dbContext;
 
-        public ResetController(IGlobalRepository globalRepository, CanteenAppDbContext dbContext)
+        public ResetMssqlController(IGlobalRepository globalRepository, CanteenAppDbContext dbContext)
         {
             _globalRepository = globalRepository;
             _dbContext = dbContext;

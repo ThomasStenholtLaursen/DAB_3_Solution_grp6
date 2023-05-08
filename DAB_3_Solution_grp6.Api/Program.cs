@@ -10,6 +10,8 @@ using DAB_3_Solution_grp6.MSSQL.DataAccess.Repositories.Reservation;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<MongoDbDataSeed>();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -37,6 +39,7 @@ builder.Services.AddDbContext<CanteenAppDbContext>(
 
     });
 
+
 builder.Services.AddScoped<IGlobalRepository, GlobalRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ICanteenRepository, CanteenRepository>();
@@ -48,7 +51,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    // Seeding for MSSQL
+    // Seeding MSSQL
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
@@ -57,17 +60,16 @@ if (app.Environment.IsDevelopment())
         await MssqlDataSeed.SeedDataMssql(context);
     }
 
-    // Seeding for MongoDB
+    // Seeding MongoDB
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
         var canteenService = services.GetRequiredService<CanteenAppMongoDbService>();
 
         var mongoDbDataSeed = new MongoDbDataSeed(canteenService);
-        mongoDbDataSeed.SeedDataMongoDb(canteenService);
+        await mongoDbDataSeed.SeedDataMongoDb(canteenService);
     }
 }
-
 
 app.UseHttpsRedirection();
 
@@ -76,4 +78,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

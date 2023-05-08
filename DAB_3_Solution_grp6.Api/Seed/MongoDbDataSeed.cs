@@ -13,7 +13,7 @@ namespace DAB_3_Solution_grp6.Api.Seed
             _canteenAppMongoDbService = canteenAppMongoDbService;
         }
 
-        public async void SeedDataMongoDb(CanteenAppMongoDbService canteenAppMongoDbService)
+        public async Task SeedDataMongoDb(CanteenAppMongoDbService canteenAppMongoDbService)
         {
             var ratingCount = await _canteenAppMongoDbService.GetRatingCountAsync();
             var canteenCount = await _canteenAppMongoDbService.GetCanteenCountAsync();
@@ -23,7 +23,6 @@ namespace DAB_3_Solution_grp6.Api.Seed
             var mealCount = await _canteenAppMongoDbService.GetMealCountAsync();
 
             if (ratingCount != 0 || canteenCount != 0 || menuCount != 0 || reservationCount != 0 || customerCount != 0 || mealCount != 0) return;
-
 
             var auIds = GenerateAuIds(10);
             var canteenIds = GenerateIdentifiers(10);
