@@ -21,9 +21,9 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
         [BsonElement("canteenId")]
         public string CanteenName { get; }
 
-        public Menu(string warmDishName, string streetFoodName, DateTime created, string canteenName)
+        public Menu(string warmDishName, string streetFoodName, DateTime created, string canteenName, ObjectId id = default)
         {
-            Id = ObjectId.GenerateNewId();
+            Id = id == default ? ObjectId.GenerateNewId() : id;
             WarmDishName = warmDishName;
             StreetFoodName = streetFoodName;
             Created = created;

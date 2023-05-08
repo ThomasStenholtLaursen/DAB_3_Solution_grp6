@@ -24,7 +24,7 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.Reset
         [HttpPost("Seed")]
         public async Task<ActionResult> SeedDatabase()
         {
-            await MssqlDataSeed.Seed(_dbContext);
+            await MssqlDataSeed.SeedDataMssql(_dbContext);
 
             return Ok();
         }

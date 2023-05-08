@@ -35,8 +35,4 @@
     <ProjectReference Include="..\DAB_3_Solution_grp6.MSSQL.DataAccess\DAB_3_Solution_grp6.MSSQL.DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\MongoDb\CanteenApp\Response\" />
-  </ItemGroup>
-
 </Project>

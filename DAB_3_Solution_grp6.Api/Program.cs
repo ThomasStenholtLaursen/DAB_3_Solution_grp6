@@ -54,7 +54,7 @@ if (app.Environment.IsDevelopment())
         var services = scope.ServiceProvider;
         var context = services.GetRequiredService<CanteenAppDbContext>();
 
-        await MssqlDataSeed.Seed(context);
+        await MssqlDataSeed.SeedDataMssql(context);
     }
 
     // Seeding for MongoDB
@@ -64,7 +64,7 @@ if (app.Environment.IsDevelopment())
         var canteenService = services.GetRequiredService<MongoDbCanteenAppService>();
 
         var mongoDbDataSeed = new MongoDbDataSeed(canteenService);
-        mongoDbDataSeed.SeedData();
+        mongoDbDataSeed.SeedDataMongoDb(canteenService);
     }
 }
 

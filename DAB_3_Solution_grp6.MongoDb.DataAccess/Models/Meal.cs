@@ -18,9 +18,9 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
         [BsonElement("reservationId")]
         public ObjectId? ReservationId { get; }
 
-        public Meal(string mealName, string canteenName, ObjectId? reservationId)
+        public Meal(string mealName, string canteenName, ObjectId? reservationId, ObjectId id = default)
         {
-            Id = ObjectId.GenerateNewId();
+            Id = id == default ? ObjectId.GenerateNewId() : id;
             MealName = mealName;
             CanteenName = canteenName;
             ReservationId = reservationId;
