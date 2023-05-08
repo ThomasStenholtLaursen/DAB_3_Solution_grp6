@@ -38,9 +38,9 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp
 
 
         [HttpGet("GetReservation")]
-        public async Task<ActionResult<Menu>> GetReservation(string AuID)
+        public async Task<ActionResult<Menu>> GetReservation(string auId)
         {
-            var result = await _mongoDbCanteenAppService.GetMealsByAuId(AuID);
+            var result = await _mongoDbCanteenAppService.GetMealsByAuId(auId);
 
             return Ok(result);
         }
