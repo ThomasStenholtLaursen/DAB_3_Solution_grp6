@@ -1,4 +1,4 @@
-﻿namespace DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettingsAccess
+﻿namespace DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettings
 {
     public class MongoDbSettings
     {

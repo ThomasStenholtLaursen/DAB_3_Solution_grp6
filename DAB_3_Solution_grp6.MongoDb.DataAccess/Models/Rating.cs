@@ -25,9 +25,9 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
         [BsonElement("auId")]
         public string? AuId { get; }
 
-        public Rating(string canteenName, decimal stars, DateTime created, string? comment, string? auId)
+        public Rating(string canteenName, decimal stars, DateTime created, string? comment, string? auId, ObjectId id = default)
         {
-            Id = ObjectId.GenerateNewId();
+            Id = id == default ? ObjectId.GenerateNewId() : id;
             CanteenName = canteenName;
             Stars = stars;
             Created = created;

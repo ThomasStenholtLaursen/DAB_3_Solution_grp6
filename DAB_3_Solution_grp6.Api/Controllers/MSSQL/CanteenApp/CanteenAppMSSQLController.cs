@@ -16,13 +16,13 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp
 {
     [ApiController]
     [Route("api")]
-    public class CanteenAppController : ControllerBase
+    public class CanteenAppMssqlController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IReservationRepository _reservationRepository;
         private readonly ICanteenRepository _canteenRepository;
 
-        public CanteenAppController(
+        public CanteenAppMssqlController(
             IMapper mapper,
             IReservationRepository reservationRepository,
             ICanteenRepository canteenRepository)
@@ -57,7 +57,7 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp
         }
 
         /// <summary>
-        /// Query (2) Get the reservation for a given customer
+        /// Query (2) Get the reservations for a given customer (can be multiple)
         /// </summary>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

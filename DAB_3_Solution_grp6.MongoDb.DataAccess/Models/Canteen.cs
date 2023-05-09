@@ -21,9 +21,9 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
         [BsonElement("staff")]
         public List<Staff> Staff { get; set; } = new();
 
-        public Canteen(string name, string address, string postalCode)
+        public Canteen(string name, string address, string postalCode, ObjectId id = default)
         {
-            Id = ObjectId.GenerateNewId();
+            Id = id == default ? ObjectId.GenerateNewId() : id;
             Name = name;
             Address = address;
             PostalCode = postalCode;

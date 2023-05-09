@@ -7,7 +7,7 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId? Id { get; }
+        public ObjectId Id { get; }
 
         [BsonElement("warmQuantity")]
         public int? WarmQuantity { get; }
@@ -24,9 +24,9 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
         [BsonElement("menuId")]
         public ObjectId? MenuId { get; }
 
-        public Reservation(int? warmQuantity, int? streetQuantity, DateTime created, string auId, ObjectId? menuId)
+        public Reservation(int? warmQuantity, int? streetQuantity, DateTime created, string auId, ObjectId? menuId, ObjectId id = default)
         {
-            Id = ObjectId.GenerateNewId();
+            Id = id == default ? ObjectId.GenerateNewId() : id;
             WarmQuantity = warmQuantity;
             StreetQuantity = streetQuantity;
             Created = created;

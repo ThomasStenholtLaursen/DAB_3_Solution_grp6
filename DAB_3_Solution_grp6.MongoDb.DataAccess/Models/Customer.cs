@@ -18,9 +18,9 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
         [BsonElement("lastName")]
         public string LastName { get; }
 
-        public Customer(string auId, string firstName, string lastName)
+        public Customer(string auId, string firstName, string lastName, ObjectId id = default)
         {
-            Id = ObjectId.GenerateNewId();
+            Id = id == default ? ObjectId.GenerateNewId() : id;
             AuId = auId;
             FirstName = firstName;
             LastName = lastName;

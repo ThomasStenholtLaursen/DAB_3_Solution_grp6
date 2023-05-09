@@ -2,7 +2,7 @@
 using DAB_3_Solution_grp6.Api.Controllers.MSSQL.CanteenApp.Response.Query4;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Entities;
 
-namespace DAB_3_Solution_grp6.Api.MapperProfiles
+namespace DAB_3_Solution_grp6.Api.MapperProfiles.MssqlProfiles
 {
     public class MealProfile : Profile
     {

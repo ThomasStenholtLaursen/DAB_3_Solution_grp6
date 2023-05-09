@@ -6,7 +6,7 @@ namespace DAB_3_Solution_grp6.Api.Seed
 {
     public static class MssqlDataSeed
     {
-        public static async Task Seed(CanteenAppDbContext context)
+        public static async Task SeedDataMssql(CanteenAppDbContext context)
         {
             var dataExists =
                 await context.Canteens.AnyAsync() ||
@@ -63,25 +63,25 @@ namespace DAB_3_Solution_grp6.Api.Seed
             await context.SaveChangesAsync();
         }
 
-        private static async Task SeedRatings(CanteenAppDbContext context, IReadOnlyList<Guid> canteenIds, IReadOnlyList<string> cprs)
+        private static async Task SeedRatings(CanteenAppDbContext context, IReadOnlyList<Guid> canteenIds, IReadOnlyList<string> auIds)
         {
             var ratings = new[]
             {
-                new Rating(Guid.NewGuid(), (decimal)2.5, DateTime.Now, "Not to my liking", cprs[0], canteenIds[0]),
-                new Rating(Guid.NewGuid(), (decimal)4.5, DateTime.Now, "Much better now!", cprs[0], canteenIds[0]),
-                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, "it was OK", cprs[1], canteenIds[0]),
-                new Rating(Guid.NewGuid(), (decimal)2.5, DateTime.Now, "Very bland!", cprs[2], canteenIds[1]),
-                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, "Too expensive", cprs[3], canteenIds[1]),
-                new Rating(Guid.NewGuid(), (decimal)1.5, DateTime.Now, "Too expensive", cprs[1], canteenIds[1]),
-                new Rating(Guid.NewGuid(), (decimal)5, DateTime.Now, "Prices are a bit high", cprs[2], canteenIds[2]),
-                new Rating(Guid.NewGuid(), (decimal)2.5, DateTime.Now, null, cprs[4], canteenIds[2]),
-                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, null, cprs[4], canteenIds[2]),
-                new Rating(Guid.NewGuid(), (decimal)4.5, DateTime.Now, "Good meal", cprs[3], canteenIds[3]),
-                new Rating(Guid.NewGuid(), (decimal)0.5, DateTime.Now, "I almost puked!", cprs[4], canteenIds[3]),
-                new Rating(Guid.NewGuid(), (decimal)1, DateTime.Now, "Seemed to be rotten", cprs[3], canteenIds[3]),
-                new Rating(Guid.NewGuid(), (decimal)5, DateTime.Now, "Very nice!", cprs[4], canteenIds[4]),
-                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, "I liked it", cprs[1], canteenIds[4]),
-                new Rating(Guid.NewGuid(), (decimal)4, DateTime.Now, "Good!", cprs[2], canteenIds[4]),
+                new Rating(Guid.NewGuid(), (decimal)2.5, DateTime.Now, "Not to my liking", auIds[0], canteenIds[0]),
+                new Rating(Guid.NewGuid(), (decimal)4.5, DateTime.Now, "Much better now!", auIds[0], canteenIds[0]),
+                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, "it was OK", auIds[1], canteenIds[0]),
+                new Rating(Guid.NewGuid(), (decimal)2.5, DateTime.Now, "Very bland!", auIds[2], canteenIds[1]),
+                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, "Too expensive", auIds[3], canteenIds[1]),
+                new Rating(Guid.NewGuid(), (decimal)1.5, DateTime.Now, "Too expensive", auIds[1], canteenIds[1]),
+                new Rating(Guid.NewGuid(), (decimal)5, DateTime.Now, "Prices are a bit high", auIds[2], canteenIds[2]),
+                new Rating(Guid.NewGuid(), (decimal)2.5, DateTime.Now, null, auIds[4], canteenIds[2]),
+                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, null, auIds[4], canteenIds[2]),
+                new Rating(Guid.NewGuid(), (decimal)4.5, DateTime.Now, "Good meal", auIds[3], canteenIds[3]),
+                new Rating(Guid.NewGuid(), (decimal)0.5, DateTime.Now, "I almost puked!", auIds[4], canteenIds[3]),
+                new Rating(Guid.NewGuid(), (decimal)1, DateTime.Now, "Seemed to be rotten", auIds[3], canteenIds[3]),
+                new Rating(Guid.NewGuid(), (decimal)5, DateTime.Now, "Very nice!", auIds[4], canteenIds[4]),
+                new Rating(Guid.NewGuid(), (decimal)3.5, DateTime.Now, "I liked it", auIds[1], canteenIds[4]),
+                new Rating(Guid.NewGuid(), (decimal)4, DateTime.Now, "Good!", auIds[2], canteenIds[4]),
             };
 
             context.Ratings.AddRange(ratings);
