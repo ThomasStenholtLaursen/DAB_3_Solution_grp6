@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp.Response.Query2;
+using DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp.Response.Query3;
 using DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp.Response.Query4;
 using DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp.Response.Query5;
 using DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp.Response.Query7;
@@ -47,6 +48,39 @@ namespace DAB_3_Solution_grp6.Api.Controllers.MongoDb.CanteenApp
             var meals = await _canteenAppMongoDbService.GetReservationsForAGivenCustomer(auId);
 
             var response = _mapper.Map<List<Meal>, List<ReservationForUserMongoDbResponse>>(meals);
+
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Query (3) Number of reservations for each of the daily menu options for a canteen
+        /// </summary>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+        [HttpGet("query3/{canteenName}")]
+        public async Task<ActionResult> GetReservationsQuantity(string canteenName)
+        {
+            var reservations = await _canteenAppMongoDbService.GetReservationsForMenuForCanteen(canteenName);
+
+            if (!reservations.Any())
+                return NotFound($"Could not find any reservations for '{canteenName}'");
+
+            var menu = await _canteenAppMongoDbService.GetMenuForCanteen(canteenName);
+
+            var response = new ReservationsQuantityMongoDbResponse()
+            {
+                WarmDishMongoDb = new WarmDishMongoDb
+                {
+                    Amount = reservations.Sum(reservation => reservation.WarmQuantity ?? 0),
+                    Name = menu.WarmDishName
+                },
+                StreetFoodMongoDb = new StreetFoodMongoDb
+                {
+                    Amount = reservations.Sum(reservation => reservation.StreetQuantity ?? 0),
+                    Name = menu.StreetFoodName
+                }
+            };
 
             return Ok(response);
         }

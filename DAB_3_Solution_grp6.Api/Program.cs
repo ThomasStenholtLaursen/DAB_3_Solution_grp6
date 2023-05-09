@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using DAB_3_Solution_grp6.Api.Seed;
-using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettingsAccess;
+using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettings;
 using DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 using DAB_3_Solution_grp6.MSSQL.DataAccess;
 using DAB_3_Solution_grp6.MSSQL.DataAccess.Repositories.Canteen;

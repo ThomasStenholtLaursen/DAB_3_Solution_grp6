@@ -26,5 +26,4 @@ namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Models
             ReservationId = reservationId;
         }
     }
-
 }

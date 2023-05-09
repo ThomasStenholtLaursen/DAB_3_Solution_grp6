@@ -1,7 +1,8 @@
 ﻿using DAB_3_Solution_grp6.MongoDb.DataAccess.Models;
-using DAB_3_Solution_grp6.MongoDb.DataAccess.MongoDbSettingsAccess;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Linq;
+using MongoDB.Bson;
 
 namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 
@@ -15,7 +16,7 @@ public class CanteenAppMongoDbService
     private readonly IMongoCollection<Reservation> _reservationCollection;
 
     public CanteenAppMongoDbService(
-        IOptions<MongoDbSettings> databaseSettings)
+        IOptions<MongoDbSettings.MongoDbSettings> databaseSettings)
     {
         var mongoClient = new MongoClient(
             databaseSettings.Value.ConnectionString);
@@ -152,5 +153,14 @@ public class CanteenAppMongoDbService
     public async Task<List<Rating>> GetAllRatings()
     {
         return await _ratingCollection.Find(x => true).ToListAsync();
+    }
+
+    public async Task<List<Reservation>> GetReservationsForMenuForCanteen(string canteenName)
+    {
+        var dailyMenu = await _menuCollection.Find(x => x.CanteenName == canteenName).FirstOrDefaultAsync();
+        var reservationsForCanteen = await _reservationCollection.Find(x => x.MenuId == dailyMenu.Id).ToListAsync();
+        
+
+        return reservationsForCanteen;
     }
 }
