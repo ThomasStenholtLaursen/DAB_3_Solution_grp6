@@ -1,8 +1,6 @@
 ﻿using DAB_3_Solution_grp6.MongoDb.DataAccess.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System.Linq;
-using MongoDB.Bson;
 
 namespace DAB_3_Solution_grp6.MongoDb.DataAccess.Services;
 
@@ -157,9 +155,13 @@ public class CanteenAppMongoDbService
 
     public async Task<List<Reservation>> GetReservationsForMenuForCanteen(string canteenName)
     {
-        var dailyMenu = await _menuCollection.Find(x => x.CanteenName == canteenName).FirstOrDefaultAsync();
+        var today = DateTime.Today;
+        var dailyMenu = await _menuCollection.Find(x => x.CanteenName == canteenName &&
+                                                        x.Created.Year == today.Year &&
+                                                        x.Created.Month == today.Month &&
+                                                        x.Created.Day == today.Day).FirstOrDefaultAsync();
+
         var reservationsForCanteen = await _reservationCollection.Find(x => x.MenuId == dailyMenu.Id).ToListAsync();
-        
 
         return reservationsForCanteen;
     }
