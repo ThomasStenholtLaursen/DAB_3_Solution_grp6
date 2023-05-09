@@ -1,7 +1,7 @@
 # DAB_3_Solution_grp6
 
 ---
-> It is recommended to run Microsoft SQL Server with Docker, to do this you can [follow this guide](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&preserve-view=true&pivots=cs1-powershell). You don't have to run the database in Docker, but it's <b>important</b> to use Microsoft SQL Server as this application uses the NuGet-package [Microsoft.EntityFrameworkCore.SqlServer](https://learn.microsoft.com/en-us/ef/core/providers/sql-server/?tabs=dotnet-core-cli) and use MongoDb as this application uses the [MongoDB.Driver](https://www.mongodb.com/docs/drivers/csharp/current).
+> It is recommended to run Microsoft SQL Server with Docker, to do this you can [follow this guide](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&preserve-view=true&pivots=cs1-powershell) and to run MongoDB with Docker, to do this you can [follow this guide](https://hub.docker.com/_/mongo/). You don't have to run the databases in Docker, but it's <b>important</b> to use Microsoft SQL Server as this application uses the NuGet-package [Microsoft.EntityFrameworkCore.SqlServer](https://learn.microsoft.com/en-us/ef/core/providers/sql-server/?tabs=dotnet-core-cli) and use MongoDb as this application uses the [MongoDB.Driver](https://www.mongodb.com/docs/drivers/csharp/current).
 ## Quick Guide
 
 1. Connect to your SQL Server.
